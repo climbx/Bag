@@ -14,11 +14,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "Climbx\\Config\\": "src/"
+            "Climbx\\Bag\\": "src/"
         }
     },
     "autoload-dev": {
-        "psr-4": { "Climbx\\Config\\Tests\\": "tests/" }
+        "psr-4": { "Climbx\\Bag\\Tests\\": "tests/" }
     },
     "require": {
         "php": ">=8.0"
