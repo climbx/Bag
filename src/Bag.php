@@ -28,7 +28,7 @@ class Bag implements IteratorAggregate
     /**
      * @return Generator|Traversable
      */
-    public function getIterator(): Traversable|Generator
+    public function getIterator(): Traversable | Generator
     {
         yield from $this->bag;
     }
