@@ -13,7 +13,7 @@
          verbose="true"
          colors="true">
     <testsuites>
-        <testsuite name="Climbx Filesystem Tests">
+        <testsuite name="Climbx Bag Tests">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
