@@ -18,9 +18,9 @@ interface BagInterface extends \IteratorAggregate
      *
      * @param $item
      *
-     * @return int|string|object|array|bool
+     * @return int|string|object|array|bool|null
      */
-    public function get($item): int | string | object | array | bool;
+    public function get($item): int | string | object | array | bool | null;
 
     /**
      * Sets item value.
