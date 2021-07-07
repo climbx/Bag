@@ -46,8 +46,6 @@ class Bag implements IteratorAggregate
     }
 
     /**
-     * Returns an item value if exists, false if it don't.
-     *
      * @param $item
      *
      * @return mixed|false
@@ -58,19 +56,28 @@ class Bag implements IteratorAggregate
     }
 
     /**
-     * Add an item to the bag.
+     * @param $item
+     * @param $value
+     */
+    public function set($item, $value): void
+    {
+        $this->bag[$item] = $value;
+    }
+
+    /**
+     * Add an item if it's not already exists.
      *
      * @param $item
      * @param $value
      */
     public function add($item, $value): void
     {
-        $this->bag[$item] = $value;
+        if (!$this->has($item)) {
+            $this->set($item, $value);
+        }
     }
 
     /**
-     * Remove an item from the bag. Returns true if deleted, false if item don't exist.
-     *
      * @param $item
      *
      * @return bool
@@ -86,8 +93,6 @@ class Bag implements IteratorAggregate
     }
 
     /**
-     * returns all the bag data
-     *
      * @return array
      */
     public function getAll(): array
@@ -96,19 +101,14 @@ class Bag implements IteratorAggregate
     }
 
     /**
-     * returns all the bag data
-     *
-     * @param  array  $data
+     * @param array  $data
      */
     public function setAll(array $data): void
     {
         $this->bag = $data;
     }
 
-    /**
-     * remove all the items of the bag.
-     */
-    public function removeAll(): void
+    public function reset(): void
     {
         $this->bag = [];
     }
