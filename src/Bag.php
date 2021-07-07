@@ -4,9 +4,8 @@ namespace Climbx\Bag;
 
 use Generator;
 use Traversable;
-use IteratorAggregate;
 
-class Bag implements IteratorAggregate
+class Bag implements BagInterface
 {
     /**
      * array of bag items
@@ -16,8 +15,6 @@ class Bag implements IteratorAggregate
     protected array $bag;
 
     /**
-     * Bag constructor.
-     *
      * @param array $data
      */
     public function __construct(array $data = [])
@@ -34,8 +31,6 @@ class Bag implements IteratorAggregate
     }
 
     /**
-     * Checks if an item exists in the bag.
-     *
      * @param $item
      *
      * @return bool
@@ -48,9 +43,9 @@ class Bag implements IteratorAggregate
     /**
      * @param $item
      *
-     * @return mixed|false
+     * @return int|string|object|array|bool|null
      */
-    public function get($item)
+    public function get($item): int | string | object | array | bool | null
     {
         return ($this->has($item)) ? $this->bag[$item] : false;
     }
@@ -65,8 +60,6 @@ class Bag implements IteratorAggregate
     }
 
     /**
-     * Add an item if it's not already exists.
-     *
      * @param $item
      * @param $value
      */
