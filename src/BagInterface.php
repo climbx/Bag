@@ -2,6 +2,8 @@
 
 namespace Climbx\Bag;
 
+use Climbx\Bag\Exception\MissingArgumentException;
+
 interface BagInterface extends \IteratorAggregate
 {
     /**
@@ -21,6 +23,20 @@ interface BagInterface extends \IteratorAggregate
      * @return int|string|object|array|bool|null
      */
     public function get($item): int | string | object | array | bool | null;
+
+    /**
+     * Returns bag item's value.
+     *
+     * If the item is not found, the method throws an exception.
+     *
+     * @param $item
+     * @param string|null $errorMessage
+     *
+     * @return int|string|object|array|bool|null
+     *
+     * @throws MissingArgumentException
+     */
+    public function require($item, string $errorMessage = null): int | string | object | array | bool | null;
 
     /**
      * Sets item value.
