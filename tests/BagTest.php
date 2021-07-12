@@ -3,6 +3,7 @@
 namespace Climbx\Bag\Tests;
 
 use Climbx\Bag\Bag;
+use Climbx\Bag\Exception\MissingArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,25 +15,58 @@ class BagTest extends TestCase
     {
         $bag = new Bag();
 
-        $this->assertEquals(true, $bag->isEmpty());
+        $this->assertTrue($bag->isEmpty());
     }
 
     public function testGet()
     {
         $bag = new Bag();
-        $this->assertEquals(false, $bag->get('foo'));
+        $this->assertFalse($bag->get('foo'));
 
         $bag = new Bag(['foo' => 'bar']);
         $this->assertEquals('bar', $bag->get('foo'));
     }
 
+    public function testRequire()
+    {
+        $bag = new Bag(['foo' => 'bar']);
+
+        $this->assertEquals('bar', $bag->require('foo'));
+    }
+
+    public function testRequireWithDefaultMessage()
+    {
+        $bag = new Bag();
+        $this->expectException(MissingArgumentException::class);
+        $this->expectExceptionMessage('The parameter "foo" is missing');
+
+        $bag->require('foo');
+    }
+
+    public function testRequireWithCustomMessage()
+    {
+        $bag = new Bag();
+        $this->expectException(MissingArgumentException::class);
+        $this->expectExceptionMessage('The parameter "foo" is missing in .env');
+
+        $bag->require('foo', 'The parameter "foo" is missing in .env');
+    }
+
+    public function testRequireWithCustomMessageAndMagicVar()
+    {
+        $bag = new Bag();
+        $this->expectExceptionMessage('The parameter "foo" is missing in .env');
+
+        $bag->require('foo', 'The parameter "{item}" is missing in .env');
+    }
+
     public function testHas()
     {
         $bag = new Bag();
-        $this->assertEquals(false, $bag->has('foo'));
+        $this->assertFalse($bag->has('foo'));
 
         $bag = new Bag(['foo' => 'bar']);
-        $this->assertEquals(true, $bag->has('foo'));
+        $this->assertTrue($bag->has('foo'));
     }
 
     public function testSet()
@@ -40,7 +74,7 @@ class BagTest extends TestCase
         $bag = new Bag();
         $bag->set('FOO', 'BAR');
 
-        $this->assertEquals(true, $bag->has('FOO'));
+        $this->assertTrue($bag->has('FOO'));
         $this->assertEquals('BAR', $bag->get('FOO'));
 
         // set function overrides the value if it already exists.
@@ -53,7 +87,7 @@ class BagTest extends TestCase
         $bag = new Bag();
         $bag->add('FOO', 'BAR');
 
-        $this->assertEquals(true, $bag->has('FOO'));
+        $this->assertTrue($bag->has('FOO'));
         $this->assertEquals('BAR', $bag->get('FOO'));
 
         // add function don't overrides the value if it already exists.
@@ -66,11 +100,11 @@ class BagTest extends TestCase
         $bag = new Bag(['FOO' => 'BAR', 'BAR' => 'BAZ']);
         $result = $bag->remove('BAR');
 
-        $this->assertEquals(false, $bag->has('BAR'));
-        $this->assertEquals(true, $bag->has('FOO'));
+        $this->assertFalse($bag->has('BAR'));
+        $this->assertTrue($bag->has('FOO'));
 
-        $this->assertEquals(true, $result);
-        $this->assertEquals(false, $bag->remove('MISSING'));
+        $this->assertTrue($result);
+        $this->assertFalse($bag->remove('MISSING'));
     }
 
     public function testGetAll()
@@ -88,8 +122,8 @@ class BagTest extends TestCase
 
         $bag->setAll($data);
 
-        $this->assertEquals(true, $bag->has('FOO'));
-        $this->assertEquals(true, $bag->has('BAR'));
+        $this->assertTrue($bag->has('FOO'));
+        $this->assertTrue($bag->has('BAR'));
         $this->assertEquals($data, $bag->getAll());
     }
 
@@ -98,7 +132,7 @@ class BagTest extends TestCase
         $bag = new Bag(['FOO' => 'BAR', 'BAR' => 'BAZ']);
         $bag->reset();
 
-        $this->assertEquals(true, $bag->isEmpty());
+        $this->assertTrue($bag->isEmpty());
     }
 
     public function testIterator()
