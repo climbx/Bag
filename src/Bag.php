@@ -2,6 +2,7 @@
 
 namespace Climbx\Bag;
 
+use Climbx\Bag\Exception\MissingArgumentException;
 use Generator;
 use Traversable;
 
@@ -31,9 +32,7 @@ class Bag implements BagInterface
     }
 
     /**
-     * @param $item
-     *
-     * @return bool
+     * @inheritDoc
      */
     public function has($item): bool
     {
@@ -41,9 +40,7 @@ class Bag implements BagInterface
     }
 
     /**
-     * @param $item
-     *
-     * @return int|string|object|array|bool|null
+     * @inheritDoc
      */
     public function get($item): int | string | object | array | bool | null
     {
@@ -51,8 +48,22 @@ class Bag implements BagInterface
     }
 
     /**
-     * @param $item
-     * @param $value
+     * @inheritDoc
+     */
+    public function require($item, string $errorMessage = null): int | string | object | array | bool | null
+    {
+        if (!$this->has($item)) {
+            $message = (null === $errorMessage) ?
+                sprintf('The parameter "%s" is missing', $item) : str_replace("{item}", $item, $errorMessage);
+
+            throw new MissingArgumentException($message);
+        }
+
+        return $this->bag[$item];
+    }
+
+    /**
+     * @inheritDoc
      */
     public function set($item, $value): void
     {
@@ -60,8 +71,7 @@ class Bag implements BagInterface
     }
 
     /**
-     * @param $item
-     * @param $value
+     * @inheritDoc
      */
     public function add($item, $value): void
     {
@@ -71,9 +81,7 @@ class Bag implements BagInterface
     }
 
     /**
-     * @param $item
-     *
-     * @return bool
+     * @inheritDoc
      */
     public function remove($item): bool
     {
@@ -86,7 +94,7 @@ class Bag implements BagInterface
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public function getAll(): array
     {
@@ -94,20 +102,23 @@ class Bag implements BagInterface
     }
 
     /**
-     * @param array  $data
+     * @inheritDoc
      */
     public function setAll(array $data): void
     {
         $this->bag = $data;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function reset(): void
     {
         $this->bag = [];
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
     public function isEmpty(): bool
     {
