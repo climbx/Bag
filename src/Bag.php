@@ -31,25 +31,16 @@ class Bag implements BagInterface
         yield from $this->bag;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function has($item): bool
     {
         return array_key_exists($item, $this->bag);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function get($item): int | string | object | array | bool | null
     {
         return ($this->has($item)) ? $this->bag[$item] : false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function require($item, string $errorMessage = null): int | string | object | array | bool | null
     {
         if (!$this->has($item)) {
@@ -62,17 +53,11 @@ class Bag implements BagInterface
         return $this->bag[$item];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function set($item, $value): void
     {
         $this->bag[$item] = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function add($item, $value): void
     {
         if (!$this->has($item)) {
@@ -80,9 +65,6 @@ class Bag implements BagInterface
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function remove($item): bool
     {
         if ($this->has($item)) {
@@ -93,33 +75,21 @@ class Bag implements BagInterface
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAll(): array
     {
         return $this->bag;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setAll(array $data): void
     {
         $this->bag = $data;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function reset(): void
     {
         $this->bag = [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isEmpty(): bool
     {
         return empty($this->bag);
