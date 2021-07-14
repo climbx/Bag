@@ -2,7 +2,7 @@
 
 namespace Climbx\Bag;
 
-use Climbx\Bag\Exception\MissingArgumentException;
+use Climbx\Bag\Exception\MissingItemException;
 use Generator;
 use Traversable;
 
@@ -56,7 +56,7 @@ class Bag implements BagInterface
             $message = (null === $errorMessage) ?
                 sprintf('The parameter "%s" is missing', $item) : str_replace("{item}", $item, $errorMessage);
 
-            throw new MissingArgumentException($message);
+            throw new MissingItemException($message);
         }
 
         return $this->bag[$item];

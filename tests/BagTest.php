@@ -3,7 +3,7 @@
 namespace Climbx\Bag\Tests;
 
 use Climbx\Bag\Bag;
-use Climbx\Bag\Exception\MissingArgumentException;
+use Climbx\Bag\Exception\MissingItemException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -37,7 +37,7 @@ class BagTest extends TestCase
     public function testRequireWithDefaultMessage()
     {
         $bag = new Bag();
-        $this->expectException(MissingArgumentException::class);
+        $this->expectException(MissingItemException::class);
         $this->expectExceptionMessage('The parameter "foo" is missing');
 
         $bag->require('foo');
@@ -46,7 +46,7 @@ class BagTest extends TestCase
     public function testRequireWithCustomMessage()
     {
         $bag = new Bag();
-        $this->expectException(MissingArgumentException::class);
+        $this->expectException(MissingItemException::class);
         $this->expectExceptionMessage('The parameter "foo" is missing in .env');
 
         $bag->require('foo', 'The parameter "foo" is missing in .env');
