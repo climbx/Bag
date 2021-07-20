@@ -2,7 +2,7 @@
 
 namespace Climbx\Bag;
 
-use Climbx\Bag\Exception\MissingItemException;
+use Climbx\Bag\Exception\NotFoundExceptionInterface;
 
 interface BagInterface extends \IteratorAggregate
 {
@@ -21,22 +21,10 @@ interface BagInterface extends \IteratorAggregate
      * @param $item
      *
      * @return int|string|object|array|bool|null
+     *
+     * @throws NotFoundExceptionInterface
      */
     public function get($item): int | string | object | array | bool | null;
-
-    /**
-     * Returns bag item's value.
-     *
-     * If the item is not found, the method throws an exception.
-     *
-     * @param $item
-     * @param string|null $errorMessage
-     *
-     * @return int|string|object|array|bool|null
-     *
-     * @throws MissingItemException
-     */
-    public function require($item, string $errorMessage = null): int | string | object | array | bool | null;
 
     /**
      * Sets item value.
@@ -49,14 +37,6 @@ interface BagInterface extends \IteratorAggregate
     public function set($item, $value): void;
 
     /**
-     * Add an item to the bag if it don't already exists.
-     *
-     * @param $item
-     * @param $value
-     */
-    public function add($item, $value): void;
-
-    /**
      * Removes an item from the bag if exists.
      *
      * If it exists, the function returns true, else it returns false.
@@ -65,7 +45,7 @@ interface BagInterface extends \IteratorAggregate
      *
      * @return bool
      */
-    public function remove($item): bool;
+    public function unset($item): bool;
 
     /**
      * Returns all bag data.
