@@ -2,7 +2,7 @@
 
 namespace Climbx\Bag;
 
-use Climbx\Bag\Exception\MissingItemException;
+use Climbx\Bag\Exception\NotFoundException;
 use Generator;
 use Traversable;
 
@@ -36,18 +36,13 @@ class Bag implements BagInterface
         return array_key_exists($item, $this->bag);
     }
 
-    public function get($item): int | string | object | array | bool | null
-    {
-        return ($this->has($item)) ? $this->bag[$item] : false;
-    }
-
-    public function require($item, string $errorMessage = null): int | string | object | array | bool | null
+    public function get($item, string $errorMessage = null): int | string | object | array | bool | null
     {
         if (!$this->has($item)) {
             $message = (null === $errorMessage) ?
                 sprintf('The parameter "%s" is missing', $item) : str_replace("{item}", $item, $errorMessage);
 
-            throw new MissingItemException($message);
+            throw new NotFoundException($message);
         }
 
         return $this->bag[$item];
@@ -58,14 +53,7 @@ class Bag implements BagInterface
         $this->bag[$item] = $value;
     }
 
-    public function add($item, $value): void
-    {
-        if (!$this->has($item)) {
-            $this->set($item, $value);
-        }
-    }
-
-    public function remove($item): bool
+    public function unset($item): bool
     {
         if ($this->has($item)) {
             unset($this->bag[$item]);
